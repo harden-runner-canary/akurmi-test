@@ -1,0 +1,64 @@
+name: Harden-Runner Config Change Detection
+on:
+  workflow_dispatch:
+jobs:
+  job1:
+    name: job1
+    runs-on: ubuntu-latest
+    steps:
+     - name: Harden the runner (Audit all outbound calls)
+       uses: step-security/harden-runner@int-sh
+       with:
+         egress-policy: audit
+         allowed-endpoints: >
+           bing.com:443
+           bing2.com:443
+           github.com:443
+           netflix.com:443
+           netflix.com:80
+           netflix2.com:80
+           www.bing.com:443
+           www.netflix.com:443
+           www.netflix.com:80
+           yahoo.com:443
+           yahoo2.com:443
+     - run: "curl --connect-timeout 5  https://bing.com -L"
+     - run: "dig yahoo.com"
+     - uses: actions/checkout@v3
+     - name: File Overwrite with mv
+       run: |
+         code='package main\n\nfunc main(){\nprintln("code added")\n}'
+         printf "$code" > main1.go
+         mv main1.go main.go
+     - run: curl --connect-timeout 5 -L http://netflix.com
+
+  job2:
+    name: job2
+    runs-on: ubuntu-latest
+    steps:
+     - name: Harden the runner (Audit all outbound calls)
+       uses: step-security/harden-runner@int-sh
+       with:
+         egress-policy: audit
+         allowed-endpoints: >
+           bing.com:443
+           bing2.com:443
+           github.com:443
+           netflix.com:443
+           netflix.com:80
+           netflix2.com:80
+           www.bing.com:443
+           www.netflix.com:443
+           www.netflix.com:80
+           yahoo.com:443
+           yahoo2.com:443
+
+     - run: "curl --connect-timeout 5  https://bing.com -L"
+     - run: "dig yahoo.com"
+     - uses: actions/checkout@v3
+     - name: File Overwrite with mv
+       run: |
+         code='package main\n\nfunc main(){\nprintln("code added")\n}'
+         printf "$code" > main1.go
+         mv main1.go main.go
+     - run: curl --connect-timeout 5 -L http://netflix.com
