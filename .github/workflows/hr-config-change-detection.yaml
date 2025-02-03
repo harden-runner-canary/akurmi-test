@@ -9,7 +9,7 @@ jobs:
      - name: Harden the runner (Audit all outbound calls)
        uses: step-security/harden-runner@int-sh
        with:
-         egress-policy: audit
+         egress-policy: block
          allowed-endpoints: >
            bing.com:443
            bing2.com:443
@@ -39,7 +39,7 @@ jobs:
      - name: Harden the runner (Audit all outbound calls)
        uses: step-security/harden-runner@int-sh
        with:
-         egress-policy: audit
+         egress-policy: block
          allowed-endpoints: >
            bing.com:443
            bing2.com:443
